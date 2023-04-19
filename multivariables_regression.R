@@ -227,7 +227,7 @@ lmm.quadr.mat.cal <- function(y, x, data, method){
       coeff <- summary(mode)$coefficients[2,1]
       r.square <- round(MuMIn::r.squaredGLMM(mode)[1], 2)
       AIC <- round(AIC(mode), 2)
-      p.value <- round(anova(mode)$Pr[1], 3)
+      p.value <- round(anova(mode)$Pr[2], 3)
       if (coeff>0) r = sqrt(r.square)
       else r = (-1) * sqrt(r.square)
       tmp <- c(i, j, r, r.square, AIC, p.value)
