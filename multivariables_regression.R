@@ -80,7 +80,7 @@ lm.quadr.mat.cal <- function(y, x, data, method){
       a <- y[, i, drop = F]
       b <- x[, j, drop = F]
       mode <- lm(a ~ b + I(b^2), data, na.action=na.omit)
-      coeff <- summary(mode)$coefficients[2,1]
+      coeff <- summary(mode)$coefficients[3,1]
       r.square <- round(summary(mode)$r.squared, 2)
       AIC <- round(AIC(mode), 2)
       p.value <- round(anova(mode)$"Pr(>F)"[1], 3)
@@ -224,7 +224,7 @@ lmm.quadr.mat.cal <- function(y, x, data, method){
       a <- y[, i, drop = F]
       b <- x[, j, drop = F]
       mode <- lmerTest::lmer(a ~ b + I(b^2) + (1|Site), data, na.action=na.omit)
-      coeff <- summary(mode)$coefficients[2,1]
+      coeff <- summary(mode)$coefficients[3,1]
       r.square <- round(MuMIn::r.squaredGLMM(mode)[1], 2)
       AIC <- round(AIC(mode), 2)
       p.value <- round(anova(mode)$Pr[2], 3)
