@@ -150,7 +150,7 @@ lmm.mat.cal <- function(y, x, data, method){
     for(j in colnames(x)){
       a <- y[, i, drop = F]
       b <- x[, j, drop = F]
-      mode <- lmerTest::lmer(a ~ b + (1|Region), data, na.action=na.omit)
+      mode <- lmerTest::lmer(a ~ b + (1|Site), data, na.action=na.omit)
       coeff <- summary(mode)$coefficients[2,1]
       r.square <- round(MuMIn::r.squaredGLMM(mode)[1], 2)
       AIC <- round(AIC(mode), 2)
@@ -221,7 +221,7 @@ lmm.quadr.mat.cal <- function(y, x, data, method){
     for(j in colnames(x)){
       a <- y[, i, drop = F]
       b <- x[, j, drop = F]
-      mode <- lmerTest::lmer(a ~ b + I(b^2) + (1|Region), data, na.action=na.omit)
+      mode <- lmerTest::lmer(a ~ b + I(b^2) + (1|Site), data, na.action=na.omit)
       coeff <- summary(mode)$coefficients[2,1]
       r.square <- round(MuMIn::r.squaredGLMM(mode)[1], 2)
       AIC <- round(AIC(mode), 2)
@@ -238,7 +238,7 @@ lmm.quadr.mat.cal <- function(y, x, data, method){
     }
   }
   df<-data.frame(row.names=NULL,df)
-  colnames(df)<-c("dependent.variables","predictor.variables","Correlation","r.square", "AIC", "Pvalue")
+  colnames(df)<-c("dependent.variables", "predictor.variables", "Correlation", "r.square", "AIC", "Pvalue")
   df$Pvalue<-as.numeric(as.character(df$Pvalue))
   df$AdjPvalue<-rep(0,dim(df)[1])
   df$Correlation<-as.numeric(as.character(df$Correlation))
@@ -256,7 +256,7 @@ lmm.quadr.mat.cal <- function(y, x, data, method){
     for(i in unique(df$predictor.variables)){
       for(j in unique(df$Type)){
         sel<-df$predictor.variables==i & df$Type==j
-        df$AdjPvalue[sel]<-p.adjust(df$Pvalue[sel],method="BH")
+        df$AdjPvalue[sel]<-c(df$Pvalue[sel],method="BH")
       }
     }
   } else if (adjustment==3){
