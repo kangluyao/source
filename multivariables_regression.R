@@ -12,9 +12,10 @@ lm.mat.cal <- function(y, x, data, method){
       r.square <- round(summary(mode)$r.squared, 2)
       AIC <- round(AIC(mode), 2)
       p.value <- round(anova(mode)$"Pr(>F)"[1], 3)
+      normal <- round(shapiro.test(residuals(mode))$p.value, 3)
       if (coeff>0) r = sqrt(r.square)
       else r = (-1) * sqrt(r.square)
-      tmp <- c(i, j, r, r.square, AIC, p.value)
+      tmp <- c(i, j, r, r.square, AIC, p.value, normal)
       if(is.null(df)){
         df <- tmp  
       }
@@ -24,7 +25,7 @@ lm.mat.cal <- function(y, x, data, method){
     }
   }
   df<-data.frame(row.names=NULL,df)
-  colnames(df)<-c("dependent.variables","predictor.variables","Correlation","r.square", "AIC", "Pvalue")
+  colnames(df)<-c("dependent.variables","predictor.variables","Correlation","r.square", "AIC", "Pvalue", "normality")
   df$Pvalue<-as.numeric(as.character(df$Pvalue))
   df$AdjPvalue<-rep(0,dim(df)[1])
   df$Correlation<-as.numeric(as.character(df$Correlation))
@@ -83,9 +84,10 @@ lm.quadr.mat.cal <- function(y, x, data, method){
       r.square <- round(summary(mode)$r.squared, 2)
       AIC <- round(AIC(mode), 2)
       p.value <- round(anova(mode)$"Pr(>F)"[1], 3)
+      normal <- round(shapiro.test(residuals(mode))$p.value, 3)
       if (coeff>0) r = sqrt(r.square)
       else r = (-1) * sqrt(r.square)
-      tmp <- c(i, j, r, r.square, AIC, p.value)
+      tmp <- c(i, j, r, r.square, AIC, p.value, normal)
       if(is.null(df)){
         df <- tmp  
       }
@@ -95,7 +97,7 @@ lm.quadr.mat.cal <- function(y, x, data, method){
     }
   }
   df<-data.frame(row.names=NULL,df)
-  colnames(df)<-c("dependent.variables","predictor.variables","Correlation","r.square", "AIC", "Pvalue")
+  colnames(df)<-c("dependent.variables","predictor.variables","Correlation","r.square", "AIC", "Pvalue", "normality")
   df$Pvalue<-as.numeric(as.character(df$Pvalue))
   df$AdjPvalue<-rep(0,dim(df)[1])
   df$Correlation<-as.numeric(as.character(df$Correlation))
@@ -154,7 +156,7 @@ lmm.mat.cal <- function(y, x, data, method){
       coeff <- summary(mode)$coefficients[2,1]
       r.square <- round(MuMIn::r.squaredGLMM(mode)[1], 2)
       AIC <- round(AIC(mode), 2)
-      p.value <- round(anova(mode)$Pr, 3)
+      p.value <- round(anova(mode)$Pr[1], 3)
       if (coeff>0) r = sqrt(r.square)
       else r = (-1) * sqrt(r.square)
       tmp <- c(i, j, r, r.square, AIC, p.value)
@@ -225,7 +227,7 @@ lmm.quadr.mat.cal <- function(y, x, data, method){
       coeff <- summary(mode)$coefficients[2,1]
       r.square <- round(MuMIn::r.squaredGLMM(mode)[1], 2)
       AIC <- round(AIC(mode), 2)
-      p.value <- round(anova(mode)$Pr, 3)
+      p.value <- round(anova(mode)$Pr[1], 3)
       if (coeff>0) r = sqrt(r.square)
       else r = (-1) * sqrt(r.square)
       tmp <- c(i, j, r, r.square, AIC, p.value)
