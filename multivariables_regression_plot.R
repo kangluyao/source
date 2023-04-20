@@ -151,7 +151,6 @@ plot_gam_df <- function(
     y.name = NULL,
     x.names = NULL,
     ncol = NULL,
-    k = 2,
     point.color = "tomato3",
     line.color = "black"
 ){
@@ -185,7 +184,7 @@ plot_gam_df <- function(
       ggplot2::geom_smooth(
         method = "gam",
         col = line.color,
-        formula = y ~ splines::ns(x, k),
+        formula = y ~ splines::ns(x, 2),
         se = TRUE,
         alpha = 0.75
       )
