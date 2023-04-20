@@ -55,7 +55,7 @@ plot_loess_df <- function(
     y.name = NULL,
     x.names = NULL,
     ncol = NULL,
-    line.method = "loess",
+    method = "loess",
     point.color = "tomato3",
     line.color = "black"
 ){
@@ -87,15 +87,12 @@ plot_loess_df <- function(
       ggplot2::theme_bw() +
       ggplot2::theme(legend.position = "none") +
       ggplot2::geom_smooth(
-        method = line.method,
+        method = method,
         col = line.color,
         formula = y ~ x,
         se = TRUE,
         alpha = 0.75
-      ) +
-      ggpubr::stat_cor(aes(label = paste(..rr.label.., ..p.label.., sep = "~`,`~")),
-                       p.accuracy = 0.001, r.accuracy = 0.01,
-                       method = "pearson", label.x.npc = 0.3, label.y.npc = 0.05, size = 4)
+      )
   }
   p <- patchwork::wrap_plots(plot.list, ncol = ncol)
   p
@@ -155,7 +152,7 @@ plot_gam_df <- function(
     y.name = NULL,
     x.names = NULL,
     ncol = NULL,
-    method = "gam",
+    k = 2,
     point.color = "tomato3",
     line.color = "black"
 ){
@@ -187,18 +184,18 @@ plot_gam_df <- function(
       ggplot2::theme_bw() +
       ggplot2::theme(legend.position = "none") +
       ggplot2::geom_smooth(
-        method = method,
+        method = "gam",
         col = line.color,
-        formula = y ~ splines::ns(x, 2),
+        formula = y ~ splines::ns(x, k),
         se = TRUE,
         alpha = 0.75
       )
-      # ggpmisc::stat_poly_line(formula = y ~ splines::ns(x, 2), color = line.color) +
+      # ggpmisc::stat_poly_line(formula = y ~ splines::ns(x, k), color = line.color) +
       # ggpmisc::stat_poly_eq(aes(label =  paste(after_stat(eq.label), "*\", \"*",
       #                                          after_stat(rr.label), "*\", \"*", 
       #                                          after_stat(p.value.label), "*\".\"",
       #                                          sep = "")),
-      #                       formula = y ~ splines::ns(x, 2), size = 3)
+      #                       formula = y ~ splines::ns(x, k), size = 3)
   }
   p <- patchwork::wrap_plots(plot.list, ncol = ncol)
   p
