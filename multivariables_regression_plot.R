@@ -49,13 +49,12 @@ plot_cor_df <- function(
   p
 }
 
-# linear and loess regression plot
+# loess regression plot
 plot_loess_df <- function(
     data = NULL,
     y.name = NULL,
     x.names = NULL,
     ncol = NULL,
-    method = "loess",
     point.color = "tomato3",
     line.color = "black"
 ){
@@ -87,7 +86,7 @@ plot_loess_df <- function(
       ggplot2::theme_bw() +
       ggplot2::theme(legend.position = "none") +
       ggplot2::geom_smooth(
-        method = method,
+        method = "loess",
         col = line.color,
         formula = y ~ x,
         se = TRUE,
